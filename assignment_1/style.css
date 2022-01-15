@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Pushster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pushster&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navber {
+    display: block;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    color: rgb(92, 92, 92);
+    position: sticky;
+    top: 0;
+    padding: 0.5rem;
+    padding-left: 2%;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.383);
+}
+
+.navber>h4 {
+    font-family: 'Courgette', cursive;
+    font-size: 30px;
+}
+
+.navber>p {
+    font-family: 'Pushster', cursive;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+}
+
+.container .item {
+    width: 250px;
+    aspect-ratio: 16/9;
+    background-color: #98AFC7;
+    border-radius: 5px;
+    text-align: center;
+    padding: 15px;
+    margin: 10px;
+    font-family: 'Pushster', cursive;
+    font-size: 18px;
+    color: white;
+}
+
+.container .item .product-price {
+    margin-top: 0.3rem;
+}
+
+.container .item .btn-cover {
+    margin-top: 1.5rem;
+}
+
+.btn-cover .btn {
+    text-decoration: none;
+    color: white;
+    background-color: #789ec7;
+    box-shadow: 0px 0px 10px 2px rgba(255, 255, 255, 0.616);
+    border-radius: 5px;
+    padding: 0.8rem;
+}
+
+.btn-cover .btn:hover {
+    background-color: #3f5062;
+}
+
+.container-card {
+    width: 89%;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.container-card .card-title {
+    text-align: center;
+    font-family: 'Courgette', cursive;
+    color: #3f5062;
+    margin-bottom: 0.5rem;
+    font-size: 20px;
+}
+
+.shopping-card {
+    text-align: center;
+    font-family: 'Courgette', cursive;
+    font-size: 24px;
+    width: 100%;
+}
+
+.shopping-card td th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.shopping-card tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.shopping-card tr:hover {
+    color: #3f5062;
+}
+
+.shopping-card th {
+    padding: 5px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #789ec7;
+    border-radius: 5px 5px 0 0;
+    color: white;
+}
+
+.shopping-card .btn-card {
+    text-decoration: none;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 5px 15px 5px 15px;
+    background-color: #cc3737;
+    color: white;
+    border-radius: 10px;
+}
+
+.shopping-card .btn-card:hover {
+    background-color: #3f5062;
+}
+
+
+@media (max-width: 768px) {
+    .navber>h4 {
+        font-size: 15px;
+    }
+
+    .navber>p {
+        font-size: 10px;
+    }
+
+    .container {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container .item {
+        width: 100%;
+    }
+}
