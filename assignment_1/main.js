@@ -23,6 +23,7 @@ function ready() {
             let cell1 = row.insertCell(0);
             let cell2 = row.insertCell(1);
             let cell3 = row.insertCell(2);
+
             cell1.innerHTML = productName;
             cell2.innerHTML = productPrice;
             cell3.innerHTML = '<button class="btn-card">Remove</button>';

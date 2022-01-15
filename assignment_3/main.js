@@ -13,11 +13,20 @@ function guessNumber() {
 
     chanceRemaining -= 1;
     document.getElementById('remaining').innerText = `Your Chance Remaining: ${chanceRemaining}`;
-    if (chanceRemaining < 0) {
-        document.querySelector('#get_number').value = '';
-        outputText.innerText = 'You Loss, Game Over!'
-        toast_modal.style.display = 'flex';
-        document.querySelector('#get_number').disabled = true;
+    if (chanceRemaining == 0) {
+        if (userNumber === randNumber) {
+            document.querySelector('#get_number').value = '';
+            outputText.innerText = 'You Win The Game!'
+            toast_modal.style.display = 'flex';
+            document.querySelector('#get_btn').disabled = true;
+        } else {
+            document.querySelector('#get_number').value = '';
+            outputText.innerText = `You Loss, The number was ${randNumber}. Game Over!`;
+            toast_modal.style.display = 'flex';
+            document.querySelector('#get_number').disabled = true;
+            document.querySelector('#get_btn').disabled = true;
+            document.getElementById('remaining').innerText = `Your Chance Remaining: ${chanceRemaining}`;
+        }
     } else {
         gameNumberChecker(toast_modal, outputText, userNumber, randNumber);
     }
