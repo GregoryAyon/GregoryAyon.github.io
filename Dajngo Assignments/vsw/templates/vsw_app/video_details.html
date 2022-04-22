@@ -1,0 +1,97 @@
+{% extends 'vsw_app/base.html' %}
+{% load static %}
+{% block title %}VSW | Watch{% endblock %}
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="row my-2">
+        <div class="col-md-8">
+            <div class="single-video">
+                <iframe src="{{video.vidurl}}" title="YouTube video player" frameborder="0"
+                    style="aspect-ratio: 16/9; width: 100%;"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="single-video-title box mb-3">
+                <h2>{{video.title}}</h2>
+                <p class="mb-0"><i class="fas fa-eye"></i> {{video.tviews}} views</p>
+                <small>Published on {{video.created_at}}</small>
+            </div>
+            <div class="single-video-info box mb-3">
+                <h6>Category :</h6>
+                <p>{{video.category}}</p>
+                <h6>About :</h6>
+                <p style="white-space: pre-line;">{{video.details}}</p>
+            </div>
+            <hr class="mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Comments Here: </h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                {{form.username}}
+                            </div>
+                            <div class="col">
+                                {{form.email}}
+                            </div>
+                        </div>
+                        <div class="col-md-12 my-2">
+                            <div class="form-group">
+                                {{form.comment}}
+                            </div>
+                        </div>
+                        <button class="btn btn-info btn-sm my-2">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h5>People Comments - </h5>
+                    {% for comment in comments %}
+                    <div class="container content-main justify-content-center border-left border-right">
+                        <div class="d-flex justify-content-center py-2">
+                            <div class="second py-2 px-2"> <span class="text1">{{ comment.comment }}</span>
+                                <div class="d-flex justify-content-between py-1 pt-2">
+                                    <div><img src="{% static 'vendor/images/profile.png' %}" width="18"><span
+                                            class="text2">{{ comment.username }}</span></div>
+                                    <div><span class="text3">Date:</span><span class="thumbup"><i
+                                                class="fa fa-thumbs-o-up"></i></span><span
+                                            class="text4">{{comment.created_at|date:"M d, Y"}}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5>Up Next</h5>
+            {% for video in videos %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4 ">
+                        <a class="theme-main-details" href="{% url 'video_details' pk=video.id %}"><img
+                                class="img-fluid" src="{% static 'vendor/images/theme.webp' %}" alt=""><span
+                                class="play-icon"><i class="fas fa-play-circle"></i></span>
+                            <div class="time-details">{{video.runtime}}</div>
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body px-2 py-0">
+                            <a href="{% url 'video_details' pk=video.id %}" class="title-tag">
+                                <p class="card-title video-title">{{video.title}}</p>
+                                <p class="card-text text-success">{{video.tviews}} views &nbsp;<i
+                                        class="fas fa-calendar-alt"></i> {{video.created_at|date:"M d, Y"}}</p>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

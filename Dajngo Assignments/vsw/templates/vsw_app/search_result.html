@@ -1,0 +1,3 @@
+{% for video in video_list %}
+<li class="list-group-item video-search-list mt-1"><a href="{% url 'video_details' pk=video.id %}"">{{video.title}}</a></li>
+{% endfor %}
