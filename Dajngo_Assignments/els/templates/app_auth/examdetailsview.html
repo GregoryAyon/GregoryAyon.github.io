@@ -1,0 +1,96 @@
+{% extends 'app_auth/base.html' %}
+{% block title %}Exam Details{% endblock title %}
+
+{% block content %}
+<div>
+    <h3 class="font-extrabold text-sm tracking-wide text-slate-600">Quiz- {{ quiz.quiz_name }}</h3>
+    <hr>
+    {% if result %}
+    <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700" role="alert">
+        <h4 class="text-2xl font-medium leading-tight mb-2">Your result!</h4>
+        <p class="mb-4">
+            You have eraned <strong class="mr-1">{{  result.total_score }}%</strong> score. <br>
+            You have answered <strong class="mr-1">{{  result.total_correct_answer }}/ {{ total_questions }}</strong>
+            correct answer.
+        </p>
+        <hr class="border-green-600 opacity-30">
+        <p class="mt-4 mb-0">
+            Thank you for attend the exam. Attend more exam to grow up your skill!
+        </p>
+    </div>
+    {% else %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {% for question in quiz.quizheader.all %}
+        <div class="mt-1">
+            <div class="block p-6 rounded-lg shadow-lg bg-white max-w-screen-lg">
+                <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">
+                    {{ question.question }}
+                    <span
+                        class="rounded text-gray-500 bg-gray-200 font-semibold text-xs px-2 align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                        Mark- {{ question.marks }}
+                    </span>
+                </h5>
+                <h4 class="font-extrabold text-sm tracking-wide text-slate-600 mt-4">Your Options -</h4>
+                <hr>
+                <div class="text-gray-700 text-base mb-4 font-bold">
+                    <div class="flex">
+                        <div class="mb-4 w-1/2">
+                            1) {{ question.option1 }}
+                        </div>
+                        <div class="mb-4 w-1/2">
+                            2) {{ question.option2 }}
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div class="mb-4 w-1/2">
+                            3) {{ question.option3 }}
+                        </div>
+                        <div class="mb-4 w-1/2">
+                            4) {{ question.option4 }}
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-700 text-base mb-4">
+                    <h4 class="font-extrabold text-sm tracking-wide text-slate-600">Select Options -</h4>
+                    <hr>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                            type="radio" name="question={{ question.id }}" id="inlineRadio1" value="option1">
+                        <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Option1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                            type="radio" name="question={{ question.id }}" id="inlineRadio2" value="option2">
+                        <label class="form-check-label inline-block text-gray-800" for="inlineRadio20">Option2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                            type="radio" name="question={{ question.id }}" id="inlineRadio3" value="option3">
+                        <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Option3</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                            type="radio" name="question={{ question.id }}" id="inlineRadio4" value="option4">
+                        <label class="form-check-label inline-block text-gray-800" for="inlineRadio20">Option4</label>
+                    </div>
+
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="mt-4 flex justify-between">
+            <button type="submit"
+                class="normal-case inline-block px-4 py-1.5  bg-slate-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                Submit Answer
+            </button>
+        </div>
+    </form>
+    {% endif %}
+</div>
+
+{% endblock content %}

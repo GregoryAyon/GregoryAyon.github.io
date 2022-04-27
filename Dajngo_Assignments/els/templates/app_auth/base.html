@@ -1,0 +1,299 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELS - {% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Summernote css -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+
+    <style>
+        .note-toolbar {
+            background-color: rgba(124, 160, 218, 0.5) !important;
+        }
+
+        .note-editing-area {
+            background-color: #fff !important;
+        }
+
+        .show {
+            display: block !important;
+        }
+    </style>
+
+</head>
+
+<body class="h-screen">
+    {% with request.user.role as userRole %}
+    <div class="grid grid-cols-10 gap-2 h-full">
+        <div class="h-full shadow-md bg-white relative col-span-2 min-h-screen w-64 -translate-x-full md:translate-x-0 pt-8 md:pt-0"
+            id="sidenavSecExample">
+            <!-- absolute -->
+            <div class="pt-4 pb-2 px-6">
+                <a href="{% url 'dashboard' %}">
+                    <div class="flex items-center">
+                        <div class="shrink-0">
+                            <img src="{% static 'img/profile.png' %}" class="rounded-full w-10" alt="Avatar">
+                        </div>
+                        {% if request.user.is_authenticated %}
+                        <div class="grow ml-3">
+                            <p class="text-sm font-semibold text-blue-600">{{ request.user.username }} (
+                                {{request.user.role}} )</p>
+                        </div>
+                        {% else %}
+                        <div class="grow ml-3">
+                            <p class="text-sm font-semibold text-blue-600">{{ request.user }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+
+            <ul class="relative px-1">
+                {% if request.user.is_authenticated %}
+                <li class="relative">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                        href="{% url 'dashboard' %}" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                        <i class="fa-solid fa-gauge w-3 h-3 mr-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if userRole == 'Teacher' %}
+                <li class="relative" id="sidenavSecEx1">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
+                        data-mdb-ripple="true" data-mdb-ripple-color="primary" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSidenavSecEx2" aria-expanded="false"
+                        aria-controls="collapseSidenavSecEx2">
+                        <i class="fa-brands fa-blogger w-3 h-3 mr-3"></i>
+                        <span>Article Section</span>
+                        <i class="fa-solid fa-angle-down w-3 h-3 ml-auto"></i>
+                    </a>
+                    <ul class="relative accordion-collapse collapse show" id="collapseSidenavSecEx2"
+                        aria-labelledby="sidenavSecEx2" data-bs-parent="#sidenavSecExample">
+                        <li class="relative">
+                            <a href="{% url 'createarticle' %}"
+                                class="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                                data-mdb-ripple="true" data-mdb-ripple-color="primary"><i
+                                    class="fa-solid fa-square-plus w-3 h-3 mr-3"></i>Create Articles</a>
+                        </li>
+                        <li class="relative">
+                            <a href="{% url 'articlescreatedlist' %}"
+                                class="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                                data-mdb-ripple="true" data-mdb-ripple-color="primary"><i
+                                    class="fa-solid fa-list w-3 h-3 mr-3"></i>Created Articles List</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+
+                {% if userRole == 'Student' %}
+                <li class="relative">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                        href="{% url 'examlist' %}" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                        <i class="fa-solid fa-caret-right w-3 h-3 mr-3"></i>
+                        <span>Quiz Answer Section</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if userRole == 'Student' %}
+                <li class="relative">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                        href="{% url 'studentarticlelistview' %}" data-mdb-ripple="true"
+                        data-mdb-ripple-color="primary">
+                        <i class="fa-brands fa-blogger w-3 h-3 mr-3"></i>
+                        <span>Articles Section</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if userRole == 'Student' %}
+                <li class="relative" id="sidenavXxEx2">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
+                        data-mdb-ripple="true" data-mdb-ripple-color="primary" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSidenavXxEx2" aria-expanded="false"
+                        aria-controls="collapseSidenavXxEx2">
+                        <i class="fa-solid fa-message w-3 h-3 mr-3"></i>
+                        <span>Forum Section</span>
+                        <i class="fa-solid fa-angle-down w-3 h-3 ml-auto"></i>
+                    </a>
+                    <ul class="relative accordion-collapse collapse show" id="collapseSidenavXxEx2"
+                        aria-labelledby="sidenavXxEx2" data-bs-parent="#sidenavSecExample">
+                        <li class="relative">
+                            <a href="{% url 'createforum' %}"
+                                class="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                                data-mdb-ripple="true" data-mdb-ripple-color="primary"><i
+                                    class="fa-solid fa-square-plus w-3 h-3 mr-3"></i>Create Forum</a>
+                        </li>
+                        <li class="relative">
+                            <a href="{% url 'listofforums' %}"
+                                class="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                                data-mdb-ripple="true" data-mdb-ripple-color="primary"><i
+                                    class="fa-solid fa-list w-3 h-3 mr-3"></i>List of Forum</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+
+                {% if not request.user.is_authenticated %}
+                <li class="relative">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                        href="{% url 'listofforums' %}" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                        <i class="fa-solid fa-message w-3 h-3 mr-3"></i>
+                        <span>Forum Discussion List</span>
+                    </a>
+                </li>
+                {% endif %}
+
+
+                {% if userRole == 'Teacher' %}
+                <li class="relative" id="sidenavSecEx2">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
+                        data-mdb-ripple="true" data-mdb-ripple-color="primary" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSidenavSecEx2" aria-expanded="false"
+                        aria-controls="collapseSidenavSecEx2">
+                        <i class="fa-solid fa-circle-question w-3 h-3 mr-3"></i>
+                        <span>Quiz Section</span>
+                        <i class="fa-solid fa-angle-down w-3 h-3 ml-auto"></i>
+                    </a>
+                    <ul class="relative accordion-collapse collapse show" id="collapseSidenavSecEx2"
+                        aria-labelledby="sidenavSecEx2" data-bs-parent="#sidenavSecExample">
+                        <li class="relative">
+                            <a href="{% url 'quizetitle' %}"
+                                class="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                                data-mdb-ripple="true" data-mdb-ripple-color="primary"><i
+                                    class="fa-solid fa-plus w-3 h-3 mr-3"></i>Add Quiz</a>
+                        </li>
+                        <li class="relative">
+                            <a href="{% url 'questions' %}"
+                                class="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                                data-mdb-ripple="true" data-mdb-ripple-color="primary"><i
+                                    class="fa-solid fa-question w-3 h-3 mr-3"></i>Add Quiz Questions</a>
+                        </li>
+                        <li class="relative">
+                            <a href="{% url 'quizview' %}"
+                                class="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                                data-mdb-ripple="true" data-mdb-ripple-color="primary"><i
+                                    class="fa-solid fa-list-ul w-3 h-3 mr-3"></i>View Created Quizes</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+
+                {% if userRole == 'Teacher' %}
+                <li class="relative">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                        href="{% url 'listofforums' %}" data-mdb-ripple="true" data-mdb-ripple-color="primary">
+                        <i class="fa-solid fa-message w-3 h-3 mr-3"></i>
+                        <span>Forum Discussion List</span>
+                    </a>
+                </li>
+                {% endif %}
+
+            </ul>
+            <hr class="my-2">
+            <ul class="relative px-1">
+                {% if request.user.is_authenticated %}
+                <li class="relative">
+                    <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+                        href="{% url 'logout' %}" data-mdb-ripple="true" data-mdb-ripple-color="primary"
+                        onclick="return confirm('Are you sure to logout?');">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="px-2">Logout</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+            <div class="text-center bottom-0 absolute w-full">
+                <hr class="m-0">
+                <p class="py-2 text-sm text-gray-700">Developed by <a href="https://ayon.cdesk.xyz/">Ayon</a></p>
+            </div>
+        </div>
+        <button class="absolute top-2 left-6 md:hidden text-xl" id="navbutton"><i class="fa-solid fa-bars"></i></button>
+
+        <div class="h-full p-10 col-span-8 overflow-y-auto">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
+    {% endwith%}
+
+    <!-- htmx -->
+    <script src="https://unpkg.com/htmx.org@1.7.0"
+        integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"
+        defer></script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+
+    <!-- summernote links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha512-bnIvzh6FU75ZKxp0GXLH9bewza/OIw6dLVh9ICg0gogclmYGguQJWl8U30WpbsGTqbIiAwxTsbe76DErLq5EDQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+    <script>
+        let button = document.getElementById('navbutton');
+        let sidebar = document.getElementById('sidenavSecExample');
+
+        button.addEventListener('click', openNav);
+
+        function openNav() {
+            sidebar.classList.toggle('-translate-x-full');
+        }
+    </script>
+
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+
+    <script>
+        $('#id_article').summernote({
+            placeholder: 'wrtie here....',
+            tabsize: 2,
+            height: 120,
+
+        });
+    </script>
+
+    <script>
+        $('#id_description').summernote({
+            placeholder: 'Add descriptions....',
+            tabsize: 2,
+            height: 120,
+
+        });
+    </script>
+
+    <script>
+        $('#id_discuss').summernote({
+            placeholder: 'Add descriptions....',
+            tabsize: 2,
+            height: 120,
+
+        });
+    </script>
+
+
+
+</body>
+
+</html>

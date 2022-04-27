@@ -1,0 +1,48 @@
+{% extends 'app_auth/base.html' %}
+{% block title %}List of Forums{% endblock title %}
+
+{% block content %}
+<div>
+    {% if not request.user.is_authenticated %}
+    <div class="alert bg-yellow-100 rounded-lg py-5 px-6 mb-3 text-base text-yellow-700 inline-flex items-center w-full alert-dismissible fade show"
+        role="alert">
+        <strong class="mr-1">Anonymous User! </strong> Join to our community group <a href="{% url 'registration' %}"
+            class="text-gray-500">Registration</a>. If you have an account please <a href="{% url 'login' %}"
+            class="text-gray-500">Login</a>.
+        <button type="button"
+            class="btn-close box-content w-4 h-4 p-1 ml-auto text-yellow-900 border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-yellow-900 hover:opacity-75 hover:no-underline"
+            data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+    {% endif %}
+    <h3 class="font-extrabold text-sm tracking-wide text-slate-600">Forum Questions List</h3>
+    <hr>
+    {% for forum in forums %}
+    <div class="mt-1">
+        <div class="block p-6 rounded-lg shadow-lg bg-white max-w-screen-lg">
+            <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">
+                {{ forum.topic }}
+                <span
+                    class="rounded text-gray-500 bg-gray-200 font-semibold text-xs px-2 align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                    Asked by- {{ forum.topic_starter.username }} (Student)
+                </span>
+            </h5>
+            <p class="text-gray-700 text-base mb-4">
+                {{ forum.description|safe }}
+            </p>
+            <div class="mt-2 flex justify-between">
+                <a href="{% url 'forumdiscussion' pk=forum.id %}"
+                    class="normal-case inline-block px-4 py-1.5  bg-slate-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Answer It
+                </a>
+                <span
+                    class="rounded text-gray-500 bg-gray-200 font-semibold text-xs px-2 align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                    Created at- {{ forum.created_at|date:"M d, Y" }}
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

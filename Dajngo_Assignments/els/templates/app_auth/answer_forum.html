@@ -1,0 +1,88 @@
+{% extends 'app_auth/base.html' %}
+{% load static %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% block title %}Forums Discussion{% endblock title %}
+
+{% block content %}
+<div>
+    <h3 class="font-extrabold text-sm tracking-wide text-slate-600">Forums Discussion</h3>
+    <hr>
+    <div class="mt-1">
+        <!-- flex justify-left-->
+        <div class="block p-6 rounded-lg shadow-lg bg-white max-w-screen-lg">
+            <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">
+                {{ forum.topic }}
+                <span
+                    class="rounded text-gray-500 bg-gray-200 font-semibold text-xs px-2 align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                    Asked by- {{ forum.topic_starter.username }} (Student)
+                </span>
+            </h5>
+            <p class="text-gray-700 text-base mb-4">
+                {{ forum.description|safe }}
+            </p>
+            <span
+                class="rounded text-gray-500 bg-gray-200 font-semibold text-xs px-2 align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                Created at- {{ forum.created_at|date:"M d, Y" }}
+            </span>
+
+            <h3 class="font-extrabold text-sm tracking-wide text-slate-600 mt-8">Answering & Answered Section</h3>
+            <hr>
+            <div class="mt-2 flex justify-between">
+                {% if request.user.is_authenticated %}
+                <form method="POST" class="w-3/5">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+                    <div class="mt-4">
+                        <button type="submit" class="inline-block px-5 py-2 rounded-lg shadow-lg text-sm tracking-wider font-semibold 
+                    bg-indigo-500 hover:bg-violet-600 uppercase text-white">Submit
+                        </button>
+                    </div>
+                </form>
+                {% else %}
+                <div class="w-3/5">
+                    <div class="bg-yellow-100 rounded-lg py-5 px-6 mb-4 text-base text-yellow-700" role="alert">
+                        <h4 class="text-2xl font-medium leading-tight mb-2">Alert!</h4>
+                        <p class="mb-4">
+                            If you want to contribute your answer or if you want to join with our community please
+                            registration and login. Thank you!
+                        </p>
+                        <hr class="border-green-600 opacity-30">
+                        <div class="mt-4 mb-0">
+                            <a href="{% url 'registration' %}"
+                                class="normal-case inline-block px-4 py-1.5  bg-slate-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                Registration
+                            </a>
+                            <a href="{% url 'login' %}?next={% url 'forumdiscussion' pk=forum.id %}"
+                                class="normal-case inline-block px-4 py-1.5  bg-slate-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                Login
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="w-2/5 h-64 overflow-y-auto">
+                    {% for answer in forum.discussions.all %}
+                    <div class="block p-6 rounded-lg shadow-lg bg-white">
+                        <div class="flex justify-start mb-2">
+                            <img src="{% static 'img/profile.png' %}" class="rounded-full w-8" alt="Avatar" />
+                            <h5 class="text-gray-900 text-xl leading-tight font-medium ml-3">
+                                {{ answer.discusser }} ({{ answer.discusser.role }})
+                            </h5>
+                        </div>
+                        <p class="text-gray-700 text-base mb-4">
+                            {{ answer.discuss|safe }}
+                        </p>
+                        <span class="text-gray-600 font-semibold text-xs align-center w-max">
+                            Created at- {{ answer.created_at|date:"M, d, Y" }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends 'app_auth/base.html' %}
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+<div>
+    <div class="flex justify-left mt-1">
+        <div class="block p-6 rounded-lg shadow-lg bg-white max-w-screen-lg">
+            <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">
+                {{ article_info.title }}
+                <span
+                    class="rounded text-gray-500 bg-gray-200 font-semibold text-sm px-1 align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                    Created by- {{ article_info.teacher.username }} (Teacher)
+                </span>
+            </h5>
+            <p class="text-gray-500 font-semibold text-sm mt-2 bg-gray-300 inline-block px-2 py-1 rounded">Categorie-
+                {{article_info.categories}}</p>
+            <p class="text-gray-700 text-base mb-4">
+                {{ article_info.article|safe }}
+            </p>
+            <p class="text-gray-500 font-semibold text-sm mt-2">Created Date- {{article_info.created_at}}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

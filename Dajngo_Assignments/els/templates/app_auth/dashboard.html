@@ -1,0 +1,19 @@
+{% extends 'app_auth/base.html' %}
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+<div>
+    <h2 class="text-4xl font-medium leading-tight text-gray-800">
+        <span
+            class="inline-block py-1.5 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-600 text-white rounded">
+            Welcome
+        </span>
+        to Dashboard
+    </h2>
+    <div class="alert bg-green-200 rounded-lg mt-4 py-5 px-6 mb-3 text-base text-green-700 inline-flex items-center w-full alert-dismissible fade show"
+        role="alert">
+        <strong class="mr-1">Hello {{ request.user.username }}, </strong> our others features will be add soon!
+    </div>
+</div>
+
+{% endblock content %}
