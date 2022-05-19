@@ -1,0 +1,53 @@
+.footer {
+  width: 100%;
+  padding: 0.3rem;
+  position: fixed;
+  bottom: 0;
+  background-color: rgb(29, 28, 28);
+  color: aliceblue;
+  font-weight: 500;
+}
+
+.navbar {
+  color: white;
+}
+
+.btn-hover:hover {
+  background-color: rgb(0, 128, 85);
+  border-radius: 0.3rem;
+}
+
+/* Gallery */
+
+.container.gallery-container {
+  background-color: #fff;
+  color: #35373a;
+  min-height: 100vh;
+  padding: 15px 20px;
+}
+
+.gallery-container p.page-description {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
+}
+
+.tz-gallery {
+  padding: 10px;
+}
+
+.tz-gallery .row > div {
+  padding: 2px;
+}
+
+.tz-gallery .lightbox img {
+  width: 100%;
+  border-radius: 0;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0;
+  }
+}
