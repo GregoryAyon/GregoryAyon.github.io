@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title_block %} Product List {% endblock %}
+{% block body_block %}
+<div class="">
+    <h4>USER: {{ request.user.email }} ({{ request.user.user_type }})</h4>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <th scope="col">{{forloop.counter}}</th>
+                    <th scope="col">{{product.name}}</th>
+                    <th scope="col">{{product.price}}</th>
+                    <th scope="col"><a href="#" class="btn btn-sm btn-outline-primary">Details</a></th>
+                    <th scope="col"><a href="#" class="btn btn-sm btn-info">Update</a></th>
+                    <th scope="col"><a href="{% url 'app_shop:deleteproduct' pk=product.id %}"
+                            class="btn btn-sm btn-danger">Delete</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

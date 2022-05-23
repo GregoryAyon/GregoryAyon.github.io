@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container my-5">
+  <div class="my-5">
+    <h2>Your Cart</h2>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col" width="15%">#</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col" align="right">Price</th>
+        <th scop="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cart in carts %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{cart.item.name}}</td>
+        <td>
+          <a class="mr-2" href="{% url 'app_order:decrease' pk=cart.item.pk %}"><span class="badge badge-light"><i
+                class="fas fa-minus"></i></span></a>
+          {{ cart.quantity }}
+          <a class="mr-2" href="{% url 'app_order:increase' pk=cart.item.pk %}"> <span class="badge badge-light"> <i
+                class="fas fa-plus"></i></span></a>
+        </td>
+        <td align="right">&#2547; {{cart.get_total}}</td>
+        <td><a href="{% url 'app_order:remove' pk=cart.item.pk %}" class="btn btn-danger btn-sm">Remove From Cart</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      {% if not order.applycoupon %}
+      <form method="POST" action="{% url 'app_order:applycoupon' order_id=order.id %}">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Enter Coupon Code" name="code">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-info" id="basic-addon2">Add Coupon</button>
+          </div>
+        </div>
+      </form>
+      <ul>
+        <li>N.B: you have just one chance to use coupon. </li>
+      </ul>
+      {% else %}
+      <div class="alert alert-warning" role="alert">
+        You already used your coupon! If you want to use another coupon before checkout please press &nbsp;<a
+          href="{% url 'app_order:removecoupon' order_id=order.id %}" class="btn btn-danger btn-sm">Remove Coupon</a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-sm-6 col-md-6">
+      <div class="alert alert-dark" role="alert">
+        {% if order.applycoupon %}
+        <h5 class="text-center"><strong>Sub Total: </strong> &#2547;
+          {{order.get_totals|add:order.get_total_discount | floatformat:2 }}</h5>
+        <h5 class="text-center"><strong>Discount: </strong> - &#2547; {{order.get_total_discount | floatformat:2 }}</h5>
+        {% endif %}
+        <h5 class="text-center"><strong>Total: </strong> &#2547; {{order.get_totals | floatformat:2 }}</h5>
+      </div>
+      <div>
+        <a href="{% url 'app_shop:home' %}" class="btn btn-warning mr-4">Continue Shoping</a>
+        <a href="{% url 'app_payment:checkout' %}" class="btn btn-success mr-4">Proceed To Checkout</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
