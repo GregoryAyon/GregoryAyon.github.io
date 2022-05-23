@@ -50,7 +50,7 @@ def Saller_upload_product(request):
     context ={
         'form': form
     }
-    return render(request, 'app_shop/Saller_upload_product.html', context)
+    return render(request, 'app_shop/saller_upload_product.html', context)
 
 
 
