@@ -52,11 +52,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     USER_TYPE_CHOICES = (
+        ('', 'Please Select'),
         ('Buyer', 'Buyer'),
         ('Saller', 'Saller'),
     )
 
-    user_type = models.CharField(max_length=256,default='Buyer',choices=USER_TYPE_CHOICES, help_text= gettext_lazy("Sallers has their own shops / Buyers can buy products."))
+    user_type = models.CharField(max_length=256,default='Please Select',choices=USER_TYPE_CHOICES, help_text= gettext_lazy("Sallers has their own shops / Buyers can buy products."))
 
     USERNAME_FIELD = 'email'
     objects = MyUserManager()
