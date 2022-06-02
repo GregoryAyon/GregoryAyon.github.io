@@ -50,7 +50,7 @@ def Saller_upload_product(request):
     context ={
         'form': form
     }
-    return render(request, 'app_shop/Saller_upload_product.html', context)
+    return render(request, 'app_shop/saller_upload_product.html', context)
 
 
 
@@ -79,6 +79,10 @@ def saller_product_list_view(request):
         context = {
             'products':products
         }
+        
+    else:
+        context = {}
+        
     return render(request, 'app_shop/saller_product_list.html', context)
 
 @login_required(login_url='app_login:login')
@@ -88,4 +92,6 @@ def saller_product_delete_view(request, pk):
         product.delete()
         messages.success(request, "your product delete successfully!")
         return redirect("app_shop:sallerproductlist")
+    else:
+        return redirect("app_shop:home")
 

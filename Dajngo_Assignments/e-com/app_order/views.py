@@ -133,9 +133,8 @@ def apply_coupon_view(request, order_id):
         coupon = Coupon.objects.filter(code=coupon_code)
         order = Order.objects.filter(id= order_id)
 
-        coupn_end_date= coupon[0].valid_to
-
         if coupon.exists() and order.exists():
+            coupn_end_date= coupon[0].valid_to
             if coupn_end_date > now:
                 order[0].apply_coupon(coupon[0])
             else:
